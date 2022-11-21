@@ -33,7 +33,6 @@ app.get("/api/:date?", (req, res) => {
 
   // Check if there is a date param
   if (date) {
-    // Case for string date
     if (moment(date, 'X').isValid() || moment(date, 'YYYY-MM-DD').isValid()) {
       
       
@@ -47,8 +46,6 @@ app.get("/api/:date?", (req, res) => {
         newDate = new Date(unix)
         utc = newDate.toUTCString()
       }
-
-      
     } else {
       // If not a valid date
       return res.json({"error":"Invalid Date"})
@@ -59,6 +56,9 @@ app.get("/api/:date?", (req, res) => {
     unix = Math.floor(now.getTime() / 1000)
     utc = now.toUTCString()
   }
+  if (utc =="Invalid Date" || unix == null) {
+     return res.json({"error":"Invalid Date"})
+   }
  
   return res.json({"unix":unix,"utc":utc})
 })
